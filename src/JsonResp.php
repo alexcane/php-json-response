@@ -7,7 +7,7 @@ class JsonResp
     private array $_data = [];
     private string $_status = 'error';
     private array $_errMsg = [];
-    private ?object $_response;
+    private $_response;
 
     /**
      * @param array $data
@@ -69,9 +69,6 @@ class JsonResp
         return false;
     }
 
-    /**
-     * @return object
-     */
     public function getResponse()
     {
         return $this->_response;
