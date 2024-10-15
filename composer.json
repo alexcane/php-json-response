@@ -1,0 +1,23 @@
+{
+    "name": "alexcane/php-json-response",
+    "type": "library",
+    "description": "Personal PHP Class Library for format json response",
+    "license": "MIT",
+    "homepage": "https://github.com/alexcane",
+    "authors": [
+        {
+            "name": "Alexandre Cane",
+            "email": "alexandre@linkidev.fr"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpJsonResp\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
