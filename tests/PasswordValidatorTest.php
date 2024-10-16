@@ -26,6 +26,7 @@ class PasswordValidatorTest extends TestCase
         $this->assertFalse($isValid);
 
         //medium
+        $resp->setMediumConfig();
 
 //        $isValid = $resp->isValidPassword('short');
 //        $this->assertFalse($isValid);
