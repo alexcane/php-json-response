@@ -7,17 +7,18 @@ class PasswordValidator extends JsonResp
     private int $_min;
     private int $_max;
     private bool $_uppercase;
-    private bool $_lowercase;
     private bool $_digits;
     private bool $_symbols;
-    private string $_currentConfig;
+    private string $_language;
 
     /**
      * Force light config by default
      * @param array $data
+     * @param string $lang [optional]
      */
-    public function __construct(array $data){
+    public function __construct(array $data, string $lang='fr_FR'){
         parent::__construct($data);
+        $this->_language = $lang;
         $this->setLightConfig();
     }
 
@@ -34,10 +35,8 @@ class PasswordValidator extends JsonResp
         $this->_min = 6;
         $this->_max = 100;
         $this->_uppercase = false;
-        $this->_lowercase = true;
         $this->_digits = true;
         $this->_symbols = false;
-        $this->_currentConfig = 'light';
         return $this;
     }
 
@@ -45,7 +44,7 @@ class PasswordValidator extends JsonResp
      * Set config with :
      * - at least 10 characters long
      * - digits required
-     * - lowercase and uppercase required
+     * - uppercase required
      * - symbols required
      * @return $this
      */
@@ -54,10 +53,8 @@ class PasswordValidator extends JsonResp
         $this->_min = 10;
         $this->_max = 100;
         $this->_uppercase = true;
-        $this->_lowercase = true;
         $this->_digits = true;
         $this->_symbols = true;
-        $this->_currentConfig = 'medium';
         return $this;
     }
 
@@ -65,7 +62,7 @@ class PasswordValidator extends JsonResp
      * Set config with :
      * - at least 20 characters long
      * - digits required
-     * - lowercase and uppercase required
+     * - uppercase required
      * - symbols required
      * @return $this
      */
@@ -74,24 +71,38 @@ class PasswordValidator extends JsonResp
         $this->_min = 20;
         $this->_max = 100;
         $this->_uppercase = true;
-        $this->_lowercase = true;
         $this->_digits = true;
         $this->_symbols = true;
-        $this->_currentConfig = 'hard';
         return $this;
     }
 
-    //TODO: set method setCustomConfig(int $min, int $max, ...)
+    /**
+     * Set custom config with :
+     * - min length
+     * - max length
+     * - digits if true : required
+     * - uppercase if true : required
+     * - symbols if true : required
+     * @return $this
+     */
+    public function setCustomConfig(int $min, int $max, bool $uppercase, bool $digits, bool $symbols): self
+    {
+        $this->_min = $min;
+        $this->_max = $max;
+        $this->_uppercase = $uppercase;
+        $this->_digits = $digits;
+        $this->_symbols = $symbols;
+        return $this;
+    }
 
     /**
      * @param $password
-     * @param string $lang [optional]
      * @return bool
      */
-    public function isValidPassword($password, string $lang='fr_FR'): bool
+    public function isValidPassword($password): bool
     {
         $isValid = preg_match($this->_regex(), $password);
-        if(!$isValid) $this->_addErrMsg($lang);
+        if(!$isValid) $this->_addErrMsg();
         return (bool)$isValid;
     }
 
@@ -102,9 +113,9 @@ class PasswordValidator extends JsonResp
     private function _regex(): string
     {
         $regex = '/^'; // start
-        if($this->_uppercase) $regex.= '(?=.*[A-Z])';
-        if($this->_digits) $regex.= '(?=.*\d)';
-        if($this->_symbols) $regex.= '(?=.*[!@#$%^&*(),.?":{}|<>])';
+        if($this->_uppercase) $regex.= '(?=.*[A-Z])'; // required uppercase characters
+        if($this->_digits) $regex.= '(?=.*\d)'; // required digit characters
+        if($this->_symbols) $regex.= '(?=.*[!@#$%^&*(),.?":{}|<>])'; // required symbols characters
         $regex.= '[A-Za-z\d!@#$%^&*(),.?":{}|<>]'; // authorized characters
         $regex.= '{'. $this->_min .','. $this->_max .'}'; // string length
         $regex.= '$/'; // end
@@ -113,17 +124,16 @@ class PasswordValidator extends JsonResp
 
     /**
      * Errors injector
-     * @param string $lang
      * @return void
      */
-    private function _addErrMsg(string $lang): void
+    private function _addErrMsg(): void
     {
         $this->addErrMsg('Mot de passe invalide');
         $this->addErrMsg('-'. $this->_min .' caractères minimum');
         if($this->_uppercase) $this->addErrMsg('- 1 majuscule requise');
         if($this->_digits) $this->addErrMsg('- 1 chiffre requis');
         if($this->_symbols) $this->addErrMsg('- 1 symbole requise');
-        if('fr_FR'===$lang) return;
+        if('fr_FR'===$this->_language) return;
 
         // if the language is different from French, english is set by default
         $this->clearErrMsg();
