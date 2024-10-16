@@ -23,9 +23,9 @@ $resp = $new JsonResp(/* array of data */);
 ```php
 if (0 <= $data['number']) $resp->addErrMsg('number must be more than 0');
 ```
-3) Before return response you can check if they are errors.
+3) Before return response you can check if there are errors.
 ```php
-if (!$resp->isSuccess()) die $resp->returnResponse(true);
+if ($resp->isError()) die $resp->returnResponse(true);
 ```
 4) 2 ways to return response : JSON string or Array.
 ```php
