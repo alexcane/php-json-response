@@ -12,12 +12,12 @@
     ],
     "require": {
         "ext-json": "*",
-        "php": "^7.4"
+        "php": "^7.4 || ^8.0"
     },
     "autoload": {
         "psr-4": {
             "PhpJsonResp\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
