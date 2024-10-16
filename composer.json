@@ -19,5 +19,8 @@
             "PhpJsonResp\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    }
 }
