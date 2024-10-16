@@ -26,6 +26,15 @@ class JsonResp
     }
 
     /**
+     * Clear the data passed at the time of class instantiation.
+     * @return void
+     */
+    public function clearData(): void
+    {
+        $this->_data = [];
+    }
+
+    /**
      * Process actions on $data iteration :
      * - trim() string variable
      * - true and false string replace as boolean
@@ -60,13 +69,40 @@ class JsonResp
     }
 
     /**
-     * Check if response contains error(s)
+     * Check if response contains no error(s)
      * @return bool
      */
     public function isSuccess(): bool
     {
         if(empty($this->_errMsg)) return true;
         return false;
+    }
+
+    /**
+     * Check if response contains error(s)
+     * @return bool
+     */
+    public function isError(): bool
+    {
+        if(!empty($this->_errMsg)) return true;
+        return false;
+    }
+
+    /**
+     * Count number of error
+     */
+    public function errorCount(): int
+    {
+        return count($this->_errMsg);
+    }
+
+    /**
+     * Clear the array of errors messages
+     * @return void
+     */
+    protected function clearErrMsg(): void
+    {
+        $this->_errMsg = [];
     }
 
     public function getResponse()
