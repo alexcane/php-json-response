@@ -1,3 +1,5 @@
+![Tests](https://github.com/alexcane/php-json-response/actions/workflows/phpunit.yml/badge.svg)
+
 # PHPJsonResponse
 
 ---
