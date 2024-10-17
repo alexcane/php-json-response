@@ -9,6 +9,7 @@ class PasswordValidator extends JsonResp
     private bool $_uppercase;
     private bool $_digits;
     private bool $_symbols;
+    private string $_currentConfig;
     private string $_language;
 
     /**
@@ -37,6 +38,7 @@ class PasswordValidator extends JsonResp
         $this->_uppercase = false;
         $this->_digits = true;
         $this->_symbols = false;
+        $this->_currentConfig = 'light';
         return $this;
     }
 
@@ -55,6 +57,7 @@ class PasswordValidator extends JsonResp
         $this->_uppercase = true;
         $this->_digits = true;
         $this->_symbols = true;
+        $this->_currentConfig = 'medium';
         return $this;
     }
 
@@ -73,6 +76,7 @@ class PasswordValidator extends JsonResp
         $this->_uppercase = true;
         $this->_digits = true;
         $this->_symbols = true;
+        $this->_currentConfig = 'hard';
         return $this;
     }
 
@@ -92,7 +96,21 @@ class PasswordValidator extends JsonResp
         $this->_uppercase = $uppercase;
         $this->_digits = $digits;
         $this->_symbols = $symbols;
+        $this->_currentConfig = 'custom';
         return $this;
+    }
+
+    /**
+     * Return the current level of config :
+     * - light
+     * - medium
+     * - hard
+     * - custom
+     * @return string
+     */
+    public function getCurrentConfigName(): string
+    {
+        return $this->_currentConfig;
     }
 
     /**
@@ -115,11 +133,20 @@ class PasswordValidator extends JsonResp
         $regex = '/^'; // start
         if($this->_uppercase) $regex.= '(?=.*[A-Z])'; // required uppercase characters
         if($this->_digits) $regex.= '(?=.*\d)'; // required digit characters
-        if($this->_symbols) $regex.= '(?=.*[!@#$%^&*(),.?":{}|<>])'; // required symbols characters
-        $regex.= '[A-Za-z\d!@#$%^&*(),.?":{}|<>]'; // authorized characters
+        if($this->_symbols) $regex.= '(?=.*[!@#$%^&*(),.?:{}|<>-_])'; // required symbols characters
+        $regex.= '[A-Za-z\d!@#$%^&*(),.?:{}|<>-_]'; // authorized characters
         $regex.= '{'. $this->_min .','. $this->_max .'}'; // string length
         $regex.= '$/'; // end
         return $regex;
+    }
+
+    /**
+     * generate the regex according the config
+     * @return string
+     */
+    public function getRegex(): string
+    {
+        return $this->_regex();
     }
 
     /**
