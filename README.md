@@ -1,4 +1,6 @@
-![Tests](https://github.com/alexcane/php-json-response/actions/workflows/phpunit.yml/badge.svg)
+![Tests](https://github.com/alexcane/php-json-response/actions/workflows/ci.yml/badge.svg)
+[![License](https://poser.pugx.org/alexcane/php-json-response/license)](https://packagist.org/packages/alexcane/php-json-response)
+
 
 # PHPJsonResponse
 
