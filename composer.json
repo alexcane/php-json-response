@@ -1,9 +1,19 @@
 {
     "name": "alexcane/php-json-response",
     "type": "library",
-    "description": "Personal PHP Class Library for format json response",
+    "description": "PHP library for standardized JSON response formatting and password validation with preset security levels",
+    "keywords": [
+        "json",
+        "response",
+        "api",
+        "validation",
+        "password",
+        "security",
+        "rest",
+        "http"
+    ],
     "license": "MIT",
-    "homepage": "https://github.com/alexcane",
+    "homepage": "https://github.com/alexcane/php-json-response",
     "authors": [
         {
             "name": "Alexandre Cane",
@@ -11,16 +21,27 @@
         }
     ],
     "require": {
-        "ext-json": "*",
-        "php": "^7.4 || ^8.0"
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     },
     "autoload": {
         "psr-4": {
             "PhpJsonResp\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpJsonResp\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-text --colors=always",
+        "test:coverage-html": "phpunit --coverage-html coverage"
+    },
     "minimum-stability": "stable",
-    "require-dev": {
-        "phpunit/phpunit": "^9.6"
-    }
+    "prefer-stable": true
 }

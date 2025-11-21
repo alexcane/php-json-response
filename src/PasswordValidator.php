@@ -166,8 +166,8 @@ class PasswordValidator extends JsonResp
         $this->clearErrMsg();
         $this->addErrMsg('Invalid Password');
         $this->addErrMsg('- at least '. $this->_min .' characters long');
-        if($this->_uppercase) $this->addErrMsg('uppercases required');
-        if($this->_digits) $this->addErrMsg('digits required');
-        if($this->_symbols) $this->addErrMsg('symbols required');
+        if($this->_uppercase) $this->addErrMsg('- uppercases required');
+        if($this->_digits) $this->addErrMsg('- digits required');
+        if($this->_symbols) $this->addErrMsg('- symbols required');
     }
 }

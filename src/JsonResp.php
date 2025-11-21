@@ -43,10 +43,10 @@ class JsonResp
     public function setData(array $data): void
     {
         $trimmedData = array();
-        foreach($data as $k=>$v){
+        foreach($data as $k => $v) {
             if(is_string($v)) $v = trim($v);
-            if('false'===$v) $v = false;
-            if('true'===$v) $v = true;
+            if('false' === $v) $v = false;
+            if('true' === $v) $v = true;
             $trimmedData[$k] = $v;
         }
         $this->_data = $trimmedData;
@@ -58,6 +58,14 @@ class JsonResp
     public function addErrMsg(string $errMsg): void
     {
         $this->_errMsg[] = $errMsg;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrMsg(): array
+    {
+        return $this->_errMsg;
     }
 
     /**
@@ -74,8 +82,7 @@ class JsonResp
      */
     public function isSuccess(): bool
     {
-        if(empty($this->_errMsg)) return true;
-        return false;
+        return empty($this->_errMsg);
     }
 
     /**
@@ -84,8 +91,7 @@ class JsonResp
      */
     public function isError(): bool
     {
-        if(!empty($this->_errMsg)) return true;
-        return false;
+        return !empty($this->_errMsg);
     }
 
     /**
@@ -119,7 +125,7 @@ class JsonResp
      * @param bool $json
      * @return array|string
      */
-    public function returnResponse(bool $json=false)
+    public function returnResponse(bool $json = false)
     {
         if(empty($this->_errMsg)) $this->_status = 'success';
         $res = [
@@ -142,6 +148,6 @@ class JsonResp
      */
     private function returnJson(array $res): string
     {
-        return json_encode($res);
+        return json_encode($res, JSON_THROW_ON_ERROR);
     }
 }
